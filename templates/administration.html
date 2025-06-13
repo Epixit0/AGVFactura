@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration - AGVFactura</title>
+    <link rel="stylesheet" href="/static/navbar.css">
+    <link rel="stylesheet" href="/static/administration.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="/">
+                    <h1>AGVFactura</h1>
+                </a>
+            </div>
+            
+            <div class="mobile-toggle" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/administration" class="active">Administración</a></li>
+                    <li><a href="/contacto">Contacto</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-form">
+                    <input type="text" placeholder="Buscar productos...">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="user-actions">
+                    <a href="/account" class="user-icon">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <a href="#" class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">3</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="admin-hero">
+        <div class="container">
+            <h1>Panel de Administración</h1>
+            <p>Gestiona los productos de tu tienda</p>
+        </div>
+    </section>
+
+    <section class="admin-section">
+        <div class="container">
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-tab="products">Productos</button>
+                <button class="tab-btn" data-tab="categories">Categorías</button>
+                <button class="tab-btn" data-tab="orders">Pedidos</button>
+                <button class="tab-btn" data-tab="users">Usuarios</button>
+            </div>
+
+            <div class="tab-content active" id="products-tab">
+                <div class="admin-header">
+                    <h2>Gestión de Productos</h2>
+                    <button class="btn-add" id="addProductBtn">
+                        <i class="fas fa-plus"></i> Agregar Producto
+                    </button>
+                </div>
+
+                <div class="product-form-container" id="productForm">
+                    <h3>Agregar Nuevo Producto</h3>
+                    <form id="newProductForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="productName">Nombre del Producto*</label>
+                                <input type="text" id="productName" name="productName" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="productPrice">Precio*</label>
+                                <input type="number" id="productPrice" name="productPrice" step="0.01" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="productCategory">Categoría*</label>
+                                <select id="productCategory" name="productCategory" required>
+                                    <option value="">Seleccionar categoría</option>
+                                    <option value="factura">Factura</option>
+                                    <option value="nota_debito">Nota de Débito</option>
+                                    <option value="nota_credito">Nota de Crédito</option>
+                                    <option value="orden_entrega">Orden de Entrega</option>
+                                    <option value="comprobante">Comprobante de Retención</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="productTax">Estado de IVA*</label>
+                                <select id="productTax" name="productTax" required>
+                                    <option value="">Seleccionar estado</option>
+                                    <option value="gravado">Gravado</option>
+                                    <option value="exento">Exento</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="productImage">Imagen del Producto</label>
+                                <div class="file-input-container">
+                                    <input type="file" id="productImage" name="productImage" accept="image/*">
+                                    <label for="productImage" class="file-input-label">
+                                        <i class="fas fa-upload"></i> Seleccionar Imagen
+                                    </label>
+                                    <span class="file-name" id="fileName">Ningún archivo seleccionado</span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="productStatus">Estado</label>
+                                <select id="productStatus" name="productStatus">
+                                    <option value="active">Activo</option>
+                                    <option value="inactive">Inactivo</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label for="productDescription">Descripción del Producto*</label>
+                            <textarea id="productDescription" name="productDescription" rows="4" required></textarea>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label for="productFeatures">Características (una por línea)</label>
+                            <textarea id="productFeatures" name="productFeatures" rows="4" placeholder="Característica 1&#10;Característica 2&#10;Característica 3"></textarea>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn-cancel" id="cancelProductBtn">Cancelar</button>
+                            <button type="submit" class="btn-save">Guardar Producto</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="products-table-container">
+                    <div class="table-filters">
+                        <div class="search-filter">
+                            <input type="text" placeholder="Buscar productos...">
+                            <button><i class="fas fa-search"></i></button>
+                        </div>
+                        <div class="category-filter">
+                            <select>
+                                <option value="">Todas las categorías</option>
+                                <option value="factura">Factura</option>
+                                <option value="nota_debito">Nota de Débito</option>
+                                <option value="nota_credito">Nota de Crédito</option>
+                                <option value="orden_entrega">Orden de Entrega</option>
+                                <option value="comprobante">Comprobante de Retención</option>
+                            </select>
+                        </div>
+                        <div class="status-filter">
+                            <select>
+                                <option value="">Todos los estados</option>
+                                <option value="active">Activo</option>
+                                <option value="inactive">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <table class="products-table">
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Nombre</th>
+                                <th>Categoría</th>
+                                <th>Precio</th>
+                                <th>Estado IVA</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><img src="https://via.placeholder.com/50" alt="Factura Electrónica"></td>
+                                <td>Factura Electrónica</td>
+                                <td>Factura</td>
+                                <td>$9.99</td>
+                                <td>Gravado</td>
+                                <td><span class="status-badge active">Activo</span></td>
+                                <td class="actions-cell">
+                                    <button class="btn-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-delete"><i class="fas fa-trash"></i></button>
+                                    <button class="btn-view"><i class="fas fa-eye"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><img src="https://via.placeholder.com/50" alt="Nota de Débito"></td>
+                                <td>Nota de Débito</td>
+                                <td>Nota de Débito</td>
+                                <td>$9.99</td>
+                                <td>Gravado</td>
+                                <td><span class="status-badge active">Activo</span></td>
+                                <td class="actions-cell">
+                                    <button class="btn-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-delete"><i class="fas fa-trash"></i></button>
+                                    <button class="btn-view"><i class="fas fa-eye"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><img src="https://via.placeholder.com/50" alt="Nota de Crédito"></td>
+                                <td>Nota de Crédito</td>
+                                <td>Nota de Crédito</td>
+                                <td>$9.99</td>
+                                <td>Exento</td>
+                                <td><span class="status-badge active">Activo</span></td>
+                                <td class="actions-cell">
+                                    <button class="btn-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-delete"><i class="fas fa-trash"></i></button>
+                                    <button class="btn-view"><i class="fas fa-eye"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><img src="https://via.placeholder.com/50" alt="Orden de Entrega"></td>
+                                <td>Orden de Entrega</td>
+                                <td>Orden de Entrega</td>
+                                <td>$9.99</td>
+                                <td>Gravado</td>
+                                <td><span class="status-badge inactive">Inactivo</span></td>
+                                <td class="actions-cell">
+                                    <button class="btn-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-delete"><i class="fas fa-trash"></i></button>
+                                    <button class="btn-view"><i class="fas fa-eye"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><img src="https://via.placeholder.com/50" alt="Comprobante de Retención"></td>
+                                <td>Comprobante de Retención</td>
+                                <td>Comprobante</td>
+                                <td>$9.99</td>
+                                <td>Exento</td>
+                                <td><span class="status-badge active">Activo</span></td>
+                                <td class="actions-cell">
+                                    <button class="btn-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-delete"><i class="fas fa-trash"></i></button>
+                                    <button class="btn-view"><i class="fas fa-eye"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="pagination">
+                        <button class="page-btn prev"><i class="fas fa-chevron-left"></i></button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <span class="page-ellipsis">...</span>
+                        <button class="page-btn">10</button>
+                        <button class="page-btn next"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="categories-tab">
+                <h2>Gestión de Categorías</h2>
+                <p>Contenido de categorías en desarrollo...</p>
+            </div>
+
+            <div class="tab-content" id="orders-tab">
+                <h2>Gestión de Pedidos</h2>
+                <p>Contenido de pedidos en desarrollo...</p>
+            </div>
+
+            <div class="tab-content" id="users-tab">
+                <h2>Gestión de Usuarios</h2>
+                <p>Contenido de usuarios en desarrollo...</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>AGVFactura</h3>
+                    <p>Sistema de emisión de documentos fiscales electrónicos</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="/">Inicio</a></li>
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li><a href="/contacto">Contacto</a></li>
+                        <li><a href="/documents">Documentos</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Soporte</h3>
+                    <ul>
+                        <li><a href="#">Centro de Ayuda</a></li>
+                        <li><a href="/contacto">Contacto</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Documentación</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Términos de Servicio</a></li>
+                        <li><a href="#">Política de Privacidad</a></li>
+                        <li><a href="#">Cumplimiento</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 AGVFactura. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.querySelector('.main-nav').classList.toggle('active');
+        });
+        
+        // Tab switching
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons and contents
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                this.classList.add('active');
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId + '-tab').classList.add('active');
+            });
+        });
+        
+        // Product form toggle
+        const addProductBtn = document.getElementById('addProductBtn');
+        const cancelProductBtn = document.getElementById('cancelProductBtn');
+        const productForm = document.getElementById('productForm');
+        
+        addProductBtn.addEventListener('click', function() {
+            productForm.classList.add('active');
+        });
+        
+        cancelProductBtn.addEventListener('click', function() {
+            productForm.classList.remove('active');
+        });
+        
+        // File input display
+        document.getElementById('productImage').addEventListener('change', function() {
+            const fileName = this.files[0] ? this.files[0].name : 'Ningún archivo seleccionado';
+            document.getElementById('fileName').textContent = fileName;
+        });
+        
+        // Form submission (just for demonstration)
+        document.getElementById('newProductForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Producto guardado correctamente!');
+            this.reset();
+            document.getElementById('fileName').textContent = 'Ningún archivo seleccionado';
+            productForm.classList.remove('active');
+        });
+    </script>
+</body>
+</html>

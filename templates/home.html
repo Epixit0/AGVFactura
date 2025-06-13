@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AGVFactura - Inicio</title>
+    <link rel="stylesheet" href="/static/navbar.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+  </head>
+  <body>
+    <!-- Sliding Cart Overlay -->
+    <div class="cart-overlay" id="cartOverlay">
+      <div class="cart-sidebar">
+        <div class="cart-header">
+          <h2>Tu Carrito</h2>
+          <button class="close-cart" id="closeCart">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="cart-items-container">
+          <div class="cart-item">
+            <div class="item-image">
+              <img
+                src="https://via.placeholder.com/80"
+                alt="Factura Electrónica"
+              />
+            </div>
+            <div class="item-details">
+              <h3>Factura Electrónica</h3>
+              <p class="item-price">$9.99</p>
+            </div>
+            <div class="item-quantity">
+              <button class="quantity-btn minus">-</button>
+              <input type="number" value="1" min="1" />
+              <button class="quantity-btn plus">+</button>
+            </div>
+            <div class="item-remove">
+              <button><i class="fas fa-trash"></i></button>
+            </div>
+          </div>
+          <div class="cart-item">
+            <div class="item-image">
+              <img src="https://via.placeholder.com/80" alt="Nota de Crédito" />
+            </div>
+            <div class="item-details">
+              <h3>Nota de Crédito</h3>
+              <p class="item-price">$9.99</p>
+            </div>
+            <div class="item-quantity">
+              <button class="quantity-btn minus">-</button>
+              <input type="number" value="1" min="1" />
+              <button class="quantity-btn plus">+</button>
+            </div>
+            <div class="item-remove">
+              <button><i class="fas fa-trash"></i></button>
+            </div>
+          </div>
+          <div class="cart-item">
+            <div class="item-image">
+              <img
+                src="https://via.placeholder.com/80"
+                alt="Orden de Entrega"
+              />
+            </div>
+            <div class="item-details">
+              <h3>Orden de Entrega</h3>
+              <p class="item-price">$9.99</p>
+            </div>
+            <div class="item-quantity">
+              <button class="quantity-btn minus">-</button>
+              <input type="number" value="1" min="1" />
+              <button class="quantity-btn plus">+</button>
+            </div>
+            <div class="item-remove">
+              <button><i class="fas fa-trash"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="cart-summary">
+          <div class="summary-item">
+            <span>Subtotal</span>
+            <span>$29.97</span>
+          </div>
+          <div class="summary-item">
+            <span>Descuento</span>
+            <span>-$5.00</span>
+          </div>
+          <div class="summary-item total">
+            <span>Total</span>
+            <span>$24.97</span>
+          </div>
+          <button class="btn-checkout">Proceder al Pago</button>
+          <button class="btn-continue-shopping" id="continueShopping">
+            Continuar Comprando
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div class="product-modal-overlay" id="productModal">
+      <div class="product-modal">
+        <button class="btn-back" id="closeModal">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <div class="product-modal-content">
+          <div class="product-modal-image">
+            <img
+              src="https://via.placeholder.com/400"
+              alt="Producto"
+              id="modalImage"
+            />
+          </div>
+          <div class="product-modal-details">
+            <h2 id="modalTitle">Factura Electrónica</h2>
+            <div class="product-price" id="modalPrice">$9.99</div>
+            <div class="tax-status" id="modalTax">
+              <span class="tax-badge">Gravado con IVA</span>
+            </div>
+            <div class="product-description" id="modalDescription">
+              <h3>Descripción</h3>
+              <p>
+                Emisión de facturas electrónicas con validez fiscal. Este
+                documento cumple con todas las normativas legales vigentes y
+                puede ser utilizado para fines tributarios.
+              </p>
+            </div>
+            <div class="product-features" id="modalFeatures">
+              <h3>Características</h3>
+              <ul>
+                <li>Validez fiscal y legal</li>
+                <li>Formato PDF descargable</li>
+                <li>Envío automático por correo</li>
+                <li>Almacenamiento en la nube</li>
+                <li>Cumple con normativas fiscales</li>
+              </ul>
+            </div>
+            <div class="product-actions">
+              <div class="quantity-selector">
+                <button
+                  onclick="decreaseModalQuantity()"
+                  class="quantity-btn minus"
+                  id="modalDecrease"
+                >
+                  -
+                </button>
+                <input
+                  type="number"
+                  value="1"
+                  min="1"
+                  id="productQuantity"
+                  onchange="validateModalQuantity(this)"
+                />
+                <button
+                  onclick="increaseModalQuantity()"
+                  class="quantity-btn plus"
+                  id="modalIncrease"
+                >
+                  +
+                </button>
+              </div>
+              <button class="btn-add-to-cart" id="addToCartBtn">
+                <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <header class="main-header">
+      <div class="header-container">
+        <div class="logo">
+          <a href="/">
+            <h1>AGVFactura</h1>
+          </a>
+        </div>
+
+        <div class="mobile-toggle" id="mobile-menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <nav class="main-nav">
+          <ul>
+            <li><a href="/" class="active">Inicio</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/administration">Administración</a></li>
+            <li><a href="/contacto">Contacto</a></li>
+          </ul>
+        </nav>
+
+        <div class="header-actions">
+          <div class="search-form">
+            <input type="text" placeholder="Buscar productos..." />
+            <button type="submit"><i class="fas fa-search"></i></button>
+          </div>
+          <div class="user-actions">
+            <a href="/contacto" class="user-icon">
+              <i class="fas fa-user"></i>
+            </a>
+            <a href="#" class="cart-icon" id="openCart">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="cart-count">3</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-content">
+        <h2 class="animate__animated animate__fadeInDown">
+          ¡Bienvenido a AGVFactura!
+        </h2>
+        <div class="animated-text">
+          <p>Tu solución completa para documentos fiscales</p>
+        </div>
+        <div class="hero-buttons">
+          <a href="#productos" class="btn-primary">
+            <i class="fas fa-shopping-cart"></i> Ver Productos
+          </a>
+          <a href="/dashboard" class="btn-secondary">
+            <i class="fas fa-tachometer-alt"></i> Ir al Dashboard
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number">1000+</span>
+            <span class="stat-label">Clientes</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">50k+</span>
+            <span class="stat-label">Documentos</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">99%</span>
+            <span class="stat-label">Satisfacción</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-wave">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+          <path
+            fill="#ffffff"
+            fill-opacity="1"
+            d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,149.3C960,160,1056,160,1152,138.7C1248,117,1344,75,1392,53.3L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+          ></path>
+        </svg>
+      </div>
+    </section>
+
+    <section id="productos" class="products-section">
+      <div class="container">
+        <h2 class="section-title">Nuestros Productos</h2>
+        <div class="products-grid">
+          <div class="product-card" data-product-id="1">
+            <div class="product-badge">Popular</div>
+            <div class="product-icon">
+              <i class="fas fa-file-invoice"></i>
+            </div>
+            <h3>Factura Electrónica</h3>
+            <p>Emisión de facturas electrónicas con validez fiscal</p>
+            <div class="product-price">$9.99</div>
+            <button class="btn-view-product">Ver Detalles</button>
+          </div>
+
+          <div class="product-card" data-product-id="2">
+            <div class="product-icon">
+              <i class="fas fa-file-invoice-dollar"></i>
+            </div>
+            <h3>Nota de Débito</h3>
+            <p>Emisión de notas de débito para ajustes y cargos adicionales</p>
+            <div class="product-price">$9.99</div>
+            <button class="btn-view-product">Ver Detalles</button>
+          </div>
+
+          <div class="product-card" data-product-id="3">
+            <div class="product-icon">
+              <i class="fas fa-credit-card"></i>
+            </div>
+            <h3>Nota de Crédito</h3>
+            <p>Emisión de notas de crédito para devoluciones y ajustes</p>
+            <div class="product-price">$9.99</div>
+            <button class="btn-view-product">Ver Detalles</button>
+          </div>
+
+          <div class="product-card" data-product-id="4">
+            <div class="product-icon">
+              <i class="fas fa-truck"></i>
+            </div>
+            <h3>Orden de Entrega</h3>
+            <p>Generación de órdenes de entrega para productos</p>
+            <div class="product-price">$9.99</div>
+            <button class="btn-view-product">Ver Detalles</button>
+          </div>
+
+          <div class="product-card" data-product-id="5">
+            <div class="product-icon">
+              <i class="fas fa-receipt"></i>
+            </div>
+            <h3>Comprobante de Retención</h3>
+            <p>Emisión de comprobantes de retención de impuestos</p>
+            <div class="product-price">$9.99</div>
+            <button class="btn-view-product">Ver Detalles</button>
+          </div>
+
+          <div class="product-card" data-product-id="6">
+            <div class="product-icon">
+              <i class="fas fa-search"></i>
+            </div>
+            <h3>Consulta de Documentos</h3>
+            <p>Acceso a todos los documentos emitidos en el sistema</p>
+            <div class="product-price">$9.99</div>
+            <button class="btn-view-product">Ver Detalles</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features-section">
+      <div class="container">
+        <h2 class="section-title">Características</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <h3>Rápido y Eficiente</h3>
+            <p>
+              Emite documentos fiscales en segundos con nuestra plataforma
+              optimizada
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-lock"></i>
+            </div>
+            <h3>Seguro</h3>
+            <p>
+              Tus datos están protegidos con los más altos estándares de
+              seguridad
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>Cumplimiento Legal</h3>
+            <p>
+              Documentos que cumplen con todas las normativas fiscales vigentes
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-cloud"></i>
+            </div>
+            <h3>Almacenamiento en la Nube</h3>
+            <p>
+              Accede a tus documentos desde cualquier lugar y en cualquier
+              momento
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-content">
+          <h2>¿Listo para comenzar?</h2>
+          <p>
+            Accede a nuestro dashboard para gestionar todos tus documentos
+            fiscales
+          </p>
+          <a href="/dashboard" class="btn-cta">Ir al Dashboard</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="main-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-column">
+            <h3>AGVFactura</h3>
+            <p>Sistema de emisión de documentos fiscales electrónicos</p>
+            <div class="social-icons">
+              <a href="#"><i class="fab fa-facebook"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+          </div>
+
+          <div class="footer-column">
+            <h3>Enlaces Rápidos</h3>
+            <ul>
+              <li><a href="/">Inicio</a></li>
+              <li><a href="/dashboard">Dashboard</a></li>
+              <li><a href="/contacto">Contacto</a></li>
+              <li><a href="/documents">Documentos</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h3>Soporte</h3>
+            <ul>
+              <li><a href="#">Centro de Ayuda</a></li>
+              <li><a href="/contacto">Contacto</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Documentación</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h3>Legal</h3>
+            <ul>
+              <li><a href="#">Términos de Servicio</a></li>
+              <li><a href="#">Política de Privacidad</a></li>
+              <li><a href="#">Cumplimiento</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2025 AGVFactura. Todos los derechos reservados.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Funciones para los botones de cantidad en el modal
+      function increaseModalQuantity() {
+        const input = document.getElementById("productQuantity");
+        input.value = parseInt(input.value) + 1;
+      }
+
+      function decreaseModalQuantity() {
+        const input = document.getElementById("productQuantity");
+        if (parseInt(input.value) > 1) {
+          input.value = parseInt(input.value) - 1;
+        }
+      }
+
+      function validateModalQuantity(input) {
+        let value = parseInt(input.value);
+        if (isNaN(value) || value < 1) {
+          input.value = 1;
+        }
+      }
+
+      // Mobile menu toggle
+      document
+        .getElementById("mobile-menu")
+        .addEventListener("click", function () {
+          this.classList.toggle("active");
+          document.querySelector(".main-nav").classList.toggle("active");
+        });
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            window.scrollTo({
+              top: target.offsetTop - 80,
+              behavior: "smooth",
+            });
+          }
+        });
+      });
+
+      // Cart sidebar functionality
+      const cartOverlay = document.getElementById("cartOverlay");
+      const openCartBtn = document.getElementById("openCart");
+      const closeCartBtn = document.getElementById("closeCart");
+      const continueShoppingBtn = document.getElementById("continueShopping");
+
+      openCartBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        cartOverlay.classList.add("active");
+        document.body.style.overflow = "hidden";
+      });
+
+      function closeCart() {
+        cartOverlay.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      closeCartBtn.addEventListener("click", closeCart);
+      continueShoppingBtn.addEventListener("click", closeCart);
+
+      cartOverlay.addEventListener("click", function (e) {
+        if (e.target === cartOverlay) {
+          closeCart();
+        }
+      });
+
+      // Product Modal Functionality
+      const productModal = document.getElementById("productModal");
+      const closeModalBtn = document.getElementById("closeModal");
+      const viewProductBtns = document.querySelectorAll(".btn-view-product");
+      const addToCartBtn = document.getElementById("addToCartBtn");
+
+      // Product data (in a real application, this would come from a database)
+      const products = [
+        {
+          id: 1,
+          name: "Factura Electrónica",
+          price: "$9.99",
+          image: "https://via.placeholder.com/400",
+          description:
+            "Emisión de facturas electrónicas con validez fiscal. Este documento cumple con todas las normativas legales vigentes y puede ser utilizado para fines tributarios.",
+          tax: "Gravado con IVA",
+          features: [
+            "Validez fiscal y legal",
+            "Formato PDF descargable",
+            "Envío automático por correo",
+            "Almacenamiento en la nube",
+            "Cumple con normativas fiscales",
+          ],
+        },
+        {
+          id: 2,
+          name: "Nota de Débito",
+          price: "$9.99",
+          image: "https://via.placeholder.com/400",
+          description:
+            "Emisión de notas de débito para ajustes y cargos adicionales. Documento complementario a la factura que permite realizar ajustes por aumentos en el valor.",
+          tax: "Gravado con IVA",
+          features: [
+            "Ajustes por aumentos en el valor",
+            "Formato PDF descargable",
+            "Envío automático por correo",
+            "Almacenamiento en la nube",
+            "Vinculación con facturas existentes",
+          ],
+        },
+        {
+          id: 3,
+          name: "Nota de Crédito",
+          price: "$9.99",
+          image: "https://via.placeholder.com/400",
+          description:
+            "Emisión de notas de crédito para devoluciones y ajustes. Documento que permite realizar ajustes por disminuciones en el valor de una factura emitida.",
+          tax: "Exento de IVA",
+          features: [
+            "Ajustes por disminuciones en el valor",
+            "Devoluciones de productos",
+            "Formato PDF descargable",
+            "Envío automático por correo",
+            "Vinculación con facturas existentes",
+          ],
+        },
+        {
+          id: 4,
+          name: "Orden de Entrega",
+          price: "$9.99",
+          image: "https://via.placeholder.com/400",
+          description:
+            "Generación de órdenes de entrega para productos. Documento que autoriza la entrega de productos o servicios al cliente.",
+          tax: "Gravado con IVA",
+          features: [
+            "Autorización de entrega",
+            "Detalle de productos a entregar",
+            "Formato PDF descargable",
+            "Envío automático por correo",
+            "Seguimiento de entregas",
+          ],
+        },
+        {
+          id: 5,
+          name: "Comprobante de Retención",
+          price: "$9.99",
+          image: "https://via.placeholder.com/400",
+          description:
+            "Emisión de comprobantes de retención de impuestos. Documento que certifica la retención de impuestos realizada por el agente de retención.",
+          tax: "Exento de IVA",
+          features: [
+            "Certificación de retenciones",
+            "Cálculo automático de retenciones",
+            "Formato PDF descargable",
+            "Envío automático por correo",
+            "Cumplimiento con normativas fiscales",
+          ],
+        },
+        {
+          id: 6,
+          name: "Consulta de Documentos",
+          price: "$9.99",
+          image: "https://via.placeholder.com/400",
+          description:
+            "Acceso a todos los documentos emitidos en el sistema. Servicio que permite consultar y descargar todos los documentos fiscales emitidos.",
+          tax: "Gravado con IVA",
+          features: [
+            "Consulta de documentos históricos",
+            "Filtros de búsqueda avanzados",
+            "Exportación a diferentes formatos",
+            "Reportes personalizados",
+            "Acceso desde cualquier dispositivo",
+          ],
+        },
+      ];
+
+      // Open modal with product details
+      viewProductBtns.forEach((btn) => {
+        btn.addEventListener("click", function () {
+          const productCard = this.closest(".product-card");
+          const productId = parseInt(
+            productCard.getAttribute("data-product-id")
+          );
+          const product = products.find((p) => p.id === productId);
+
+          if (product) {
+            document.getElementById("modalTitle").textContent = product.name;
+            document.getElementById("modalPrice").textContent = product.price;
+            document.getElementById("modalImage").src = product.image;
+            document.getElementById("modalImage").alt = product.name;
+            document
+              .getElementById("modalDescription")
+              .querySelector("p").textContent = product.description;
+            document
+              .getElementById("modalTax")
+              .querySelector(".tax-badge").textContent = product.tax;
+
+            // Update features list
+            const featuresList = document
+              .getElementById("modalFeatures")
+              .querySelector("ul");
+            featuresList.innerHTML = "";
+            product.features.forEach((feature) => {
+              const li = document.createElement("li");
+              li.textContent = feature;
+              featuresList.appendChild(li);
+            });
+
+            // Reset quantity
+            document.getElementById("productQuantity").value = 1;
+
+            // Show modal
+            productModal.classList.add("active");
+            document.body.style.overflow = "hidden";
+          }
+        });
+      });
+
+      // Close modal
+      closeModalBtn.addEventListener("click", function () {
+        productModal.classList.remove("active");
+        document.body.style.overflow = "";
+      });
+
+      productModal.addEventListener("click", function (e) {
+        if (e.target === productModal) {
+          productModal.classList.remove("active");
+          document.body.style.overflow = "";
+        }
+      });
+
+      // Add to cart functionality
+      addToCartBtn.addEventListener("click", function () {
+        const productName = document.getElementById("modalTitle").textContent;
+        const productPrice = document.getElementById("modalPrice").textContent;
+        const productImage = document.getElementById("modalImage").src;
+        const quantity = parseInt(
+          document.getElementById("productQuantity").value
+        );
+
+        // Actualizar contador del carrito
+        const cartCount = document.querySelector(".cart-count");
+        cartCount.textContent = parseInt(cartCount.textContent) + quantity;
+
+        // Crear nuevo elemento para el carrito
+        const cartItem = document.createElement("div");
+        cartItem.className = "cart-item";
+        cartItem.innerHTML = `
+        <div class="item-image">
+            <img src="${productImage}" alt="${productName}">
+        </div>
+        <div class="item-details">
+            <h3>${productName}</h3>
+            <p class="item-price">${productPrice}</p>
+        </div>
+        <div class="item-quantity">
+            <button class="quantity-btn minus">-</button>
+            <input type="number" value="${quantity}" min="1">
+            <button class="quantity-btn plus">+</button>
+        </div>
+        <div class="item-remove">
+            <button><i class="fas fa-trash"></i></button>
+        </div>
+    `;
+
+        // Añadir el nuevo item al contenedor del carrito
+        const cartItemsContainer = document.querySelector(
+          ".cart-items-container"
+        );
+        cartItemsContainer.appendChild(cartItem);
+
+        // Actualizar el subtotal y total
+        updateCartTotal();
+
+        // Cerrar modal
+        productModal.classList.remove("active");
+        document.body.style.overflow = "";
+
+        // Opcional: Mostrar mensaje de confirmación
+        alert(`Agregado al carrito: ${quantity} x ${productName}`);
+      });
+
+      // Función para actualizar el total del carrito
+      function updateCartTotal() {
+        const cartItems = document.querySelectorAll(".cart-item");
+        let subtotal = 0;
+
+        cartItems.forEach((item) => {
+          const priceText = item.querySelector(".item-price").textContent;
+          const price = parseFloat(priceText.replace("$", ""));
+          const quantity = parseInt(
+            item.querySelector(".item-quantity input").value
+          );
+          subtotal += price * quantity;
+        });
+
+        // Aplicar descuento (puedes ajustar esto según tu lógica)
+        const discount = subtotal > 20 ? 5 : 0;
+        const total = subtotal - discount;
+
+        // Actualizar los valores en el HTML
+        document.querySelector(
+          ".summary-item:nth-child(1) span:last-child"
+        ).textContent = `$${subtotal.toFixed(2)}`;
+        document.querySelector(
+          ".summary-item:nth-child(2) span:last-child"
+        ).textContent = `-$${discount.toFixed(2)}`;
+        document.querySelector(
+          ".summary-item.total span:last-child"
+        ).textContent = `$${total.toFixed(2)}`;
+      }
+
+      // Añadir funcionalidad a los botones de cantidad en el carrito
+      document.addEventListener("click", function (e) {
+        if (e.target.classList.contains("quantity-btn")) {
+          // Ignorar los botones del modal que ya tienen su propia funcionalidad
+          if (
+            e.target.id === "modalIncrease" ||
+            e.target.id === "modalDecrease"
+          ) {
+            return;
+          }
+
+          const input = e.target.parentNode.querySelector("input");
+
+          if (e.target.classList.contains("plus")) {
+            input.value = parseInt(input.value) + 1;
+          } else if (
+            e.target.classList.contains("minus") &&
+            parseInt(input.value) > 1
+          ) {
+            input.value = parseInt(input.value) - 1;
+          }
+
+          // Actualizar el total cuando cambia la cantidad
+          updateCartTotal();
+        }
+
+        // Funcionalidad para eliminar productos del carrito
+        if (e.target.closest(".item-remove button")) {
+          const cartItem = e.target.closest(".cart-item");
+          const quantity = parseInt(
+            cartItem.querySelector(".item-quantity input").value
+          );
+
+          // Actualizar contador del carrito
+          const cartCount = document.querySelector(".cart-count");
+          cartCount.textContent = parseInt(cartCount.textContent) - quantity;
+
+          // Eliminar el elemento del carrito
+          cartItem.remove();
+
+          // Actualizar el total
+          updateCartTotal();
+        }
+      });
+    </script>
+  </body>
+</html>
